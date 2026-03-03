@@ -1,33 +1,56 @@
 import java.util.Scanner;
-import java.util.Stack;
-import java.util.Scanner;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
-public class PalindromeChecker {
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a string to check if it is a palindrome:");
-        String inputString = scanner.nextLine();
+        // --- Key Concepts ---
+        // Queue: FIFO (First-In, First-Out)
+        // Stack: LIFO (Last-In, First-Out)
+        String word = "HELLO";
 
-        // Remove spaces and convert to lower case for a more robust check (optional)
-        String cleanString = inputString.replaceAll("\\s", "").toLowerCase();
-
-        // Use the PalindromeChecker method to verify
-        if (isPalindrome(cleanString)) {
-            System.out.println("The input String \"" + inputString + "\" is a palindrome.");
-        } else {
-            System.out.println("The input String \"" + inputString + "\" is not a palindrome.");
+        // 1. Enqueue characters to a Queue
+        Deque<Character> queue = new ArrayDeque<>();
+        for (char c : word.toCharArray()) {
+            queue.addLast(c); // Enqueue operation (add to rear)
         }
-        scanner.close();
-    }
 
-    public static boolean isPalindrome(String str) {
-        // Create an empty stack to hold characters
-        Stack<Character> stack = new Stack<>();
+        // 2. Push characters to a Stack
+        Deque<Character> stack = new ArrayDeque<>();
+        for (char c : word.toCharArray()) {
+            stack.push(c); // Push operation (add to top)
+        }
 
-        // Push each character of the string onto the stack
-        for (int i = 0; i < str.length(); i++) {
-            stack.push(str.charAt(i));
+        System.out.println("Original Word: " + word);
+        System.out.println("Queue (FIFO) elements: " + queue);
+        System.out.println("Stack (LIFO) elements: " + stack);
+        System.out.println("\n--- Dequeue (Queue) vs Pop (Stack) Comparison ---");
+
+        // 3. Compare dequeue vs pop
+        while (!queue.isEmpty() || !stack.isEmpty()) {
+            // Dequeue: Removes the element from the front of the queue
+            Character dequeued = null;
+            if (!queue.isEmpty()) {
+                dequeued = queue.removeFirst();
+            }
+
+            // Pop: Removes the element from the top of the stack
+            Character popped = null;
+            if (!stack.isEmpty()) {
+                popped = stack.pop();
+            }
+
+            System.out.println("Dequeued (FIFO): " + dequeued + " | Popped (LIFO): " + popped);
+
+            // 4. Logical Comparison (Palindrome check implication)
+            // If the dequeued item matches the popped item for all elements,
+            // the original word would be a palindrome.
+            if (dequeued != null && popped != null && dequeued.equals(popped)) {
+                System.out.println("  -> Match found: The start and end characters are the same.");
+            } else if (dequeued != null && popped != null) {
+                System.out.println("  -> Mismatch: The start and end characters are different.");
+            }
         }
 
         // Pop characters from the stack to build the reversed string
