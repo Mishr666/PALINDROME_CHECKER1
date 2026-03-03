@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class PalindromeCheckerApp {
 
     // Node class for the singly linked list
