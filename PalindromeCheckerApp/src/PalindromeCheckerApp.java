@@ -52,5 +52,14 @@ public class PalindromeCheckerApp {
                 System.out.println("  -> Mismatch: The start and end characters are different.");
             }
         }
+
+        // Pop characters from the stack to build the reversed string
+        String reverseString = "";
+        while (!stack.isEmpty()) {
+            reverseString += stack.pop();
+        }
+
+        // Compare the original string with the reversed string
+        return str.equals(reverseString);
     }
 }
