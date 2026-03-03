@@ -1,65 +1,47 @@
 import java.util.Scanner;
-import java.util.Deque;
 import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class PalindromeCheckerApp {
 
+    /**
+     * Checks if a given string is a palindrome using a Deque by comparing
+     * front and rear elements.
+     *
+     * @param str The input string to check.
+     * @return true if the string is a palindrome, false otherwise.
+     */
+    public static boolean isPalindrome(String str) {
+        // Use ArrayDeque for efficient insertion and deletion from both ends.
+        Deque<Character> charDeque = new ArrayDeque<>();
+
+        // 1. Insert characters into the deque
+        for (char c : str.toCharArray()) {
+            charDeque.addLast(c); // Add each character to the rear
+        }
+
+        // 2. Remove first & last, and compare until empty or a single element remains
+        while (charDeque.size() > 1) {
+            Character first = charDeque.pollFirst(); // Remove and get the first element
+            Character last = charDeque.pollLast();   // Remove and get the last element
+
+            // 3. Compare the elements
+            if (!first.equals(last)) {
+                return false; // Mismatch found, not a palindrome
+            }
+        }
+
+        // If the loop completes without a mismatch, the string is a palindrome.
+        return true;
+    }
+
     public static void main(String[] args) {
-        // --- Key Concepts ---
-        // Queue: FIFO (First-In, First-Out)
-        // Stack: LIFO (Last-In, First-Out)
-        String word = "HELLO";
+        String testString1 = "madam";
+        String testString2 = "hello";
+        String testString3 = "radar";
 
-        // 1. Enqueue characters to a Queue
-        Deque<Character> queue = new ArrayDeque<>();
-        for (char c : word.toCharArray()) {
-            queue.addLast(c); // Enqueue operation (add to rear)
-        }
-
-        // 2. Push characters to a Stack
-        Deque<Character> stack = new ArrayDeque<>();
-        for (char c : word.toCharArray()) {
-            stack.push(c); // Push operation (add to top)
-        }
-
-        System.out.println("Original Word: " + word);
-        System.out.println("Queue (FIFO) elements: " + queue);
-        System.out.println("Stack (LIFO) elements: " + stack);
-        System.out.println("\n--- Dequeue (Queue) vs Pop (Stack) Comparison ---");
-
-        // 3. Compare dequeue vs pop
-        while (!queue.isEmpty() || !stack.isEmpty()) {
-            // Dequeue: Removes the element from the front of the queue
-            Character dequeued = null;
-            if (!queue.isEmpty()) {
-                dequeued = queue.removeFirst();
-            }
-
-            // Pop: Removes the element from the top of the stack
-            Character popped = null;
-            if (!stack.isEmpty()) {
-                popped = stack.pop();
-            }
-
-            System.out.println("Dequeued (FIFO): " + dequeued + " | Popped (LIFO): " + popped);
-
-            // 4. Logical Comparison (Palindrome check implication)
-            // If the dequeued item matches the popped item for all elements,
-            // the original word would be a palindrome.
-            if (dequeued != null && popped != null && dequeued.equals(popped)) {
-                System.out.println("  -> Match found: The start and end characters are the same.");
-            } else if (dequeued != null && popped != null) {
-                System.out.println("  -> Mismatch: The start and end characters are different.");
-            }
-        }
-
-        // Pop characters from the stack to build the reversed string
-        String reverseString = "";
-        while (!stack.isEmpty()) {
-            reverseString += stack.pop();
-        }
-
-        // Compare the original string with the reversed string
-        return str.equals(reverseString);
+        System.out.println("Is \"" + testString1 + "\" a palindrome? " + isPalindrome(testString1));
+        System.out.println("Is \"" + testString2 + "\" a palindrome? " + isPalindrome(testString2));
+        System.out.println("Is \"" + testString3 + "\" a palindrome? " + isPalindrome(testString3));
     }
 }
